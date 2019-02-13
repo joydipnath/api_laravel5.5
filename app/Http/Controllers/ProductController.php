@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 
 use App\Http\Resources\Product\ProductResource;
+use App\Http\Resources\Product\ProductCollection;
 
 class ProductController extends Controller
 {
@@ -18,6 +19,10 @@ class ProductController extends Controller
     public function index()
     {
         // return Product::all();
+        return ProductCollection::collection(Product::all());
+        // return ProductResource::collection(Product::all());
+
+        // return new ProductCollection(Product::all()); // mentioning new will only return single collection
     }
 
     /**
@@ -27,7 +32,7 @@ class ProductController extends Controller
      */
     // public function create()
     // {
-    //     //
+
     // }
 
     /**
@@ -38,7 +43,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -61,7 +66,7 @@ class ProductController extends Controller
      */
     // public function edit(Product $product)
     // {
-    //     //
+    //
     // }
 
     /**

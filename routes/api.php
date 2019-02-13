@@ -18,11 +18,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 // Route::Resource('/products', 'ProductController'); // Store, show, update, destroy, edit, Create
-// Route::apiResource('/products', 'ProductController'); // Store, show, update, destroy
+Route::apiResource('/products', 'ProductController'); // Store, show, update, destroy
 
 
 Route::group(['prefix' => 'products'], function (){
 	
+	// Route::apiResource('/', 'ProductController');
+
 	Route::apiResource('/{products}/reviews', 'ReviewController');
 
 });

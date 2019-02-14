@@ -19,7 +19,7 @@ class ProductController extends Controller
     public function index()
     {
         // return Product::all();
-        return ProductCollection::collection(Product::all());
+        return ProductCollection::collection(Product::paginate(10));
         // return ProductResource::collection(Product::all());
 
         // return new ProductCollection(Product::all()); // mentioning new will only return single collection

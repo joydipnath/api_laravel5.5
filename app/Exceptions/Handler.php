@@ -5,6 +5,11 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpFoundation\Response;
+
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -47,7 +52,26 @@ class Handler extends ExceptionHandler
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
-    {
+    {   
+        // dd($exception);
+
+        if ($request->expectsJson()) { // If header has ->  [{"key":"Accept","value":"application/json"}]
+
+            if($exception instanceof ModelNotFoundException){
+                return response()->json([
+                    'errors' => 'Model not found'
+                ],Response::HTTP_NOT_FOUND);
+            }
+
+
+            if ($exception instanceof NotFoundHttpException) {
+                return response()->json([
+                    'errors' => 'Route not found'
+                ],Response::HTTP_NOT_FOUND);
+            }
+        }
+
+        
         return parent::render($request, $exception);
     }
 }

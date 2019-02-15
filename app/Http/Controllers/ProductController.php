@@ -99,8 +99,18 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Product $product)
-    {
-        //
+    {   
+        $request['detail'] = $request->description; // Since description is not in DB
+        unset($request['description']);
+
+        $product->update($request->all());
+
+        return response([
+                'data' => new ProductResource($product)
+            ], Response::HTTP_CREATED);
+
+        // return $product;
+        // return $request->all();
     }
 
     /**
@@ -111,6 +121,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        // return $product;
+        $product->delete();
+
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }

@@ -10,8 +10,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+use App\Exceptions\ExceptionTrait;
+
+
 class Handler extends ExceptionHandler
 {
+    
+    use ExceptionTrait;
+
     /**
      * A list of the exception types that are not reported.
      *
@@ -55,23 +61,12 @@ class Handler extends ExceptionHandler
     {   
         // dd($exception);
 
-        if ($request->expectsJson()) { // If header has ->  [{"key":"Accept","value":"application/json"}]
+        if ($request->expectsJson()) {  // If header has ->  [{"key":"Accept","value":"application/json"}]
 
-            if($exception instanceof ModelNotFoundException){
-                return response()->json([
-                    'errors' => 'Model not found'
-                ],Response::HTTP_NOT_FOUND);
-            }
+            return $this->apiException($request, $exception);
 
-
-            if ($exception instanceof NotFoundHttpException) {
-                return response()->json([
-                    'errors' => 'Route not found'
-                ],Response::HTTP_NOT_FOUND);
-            }
         }
 
-        
         return parent::render($request, $exception);
     }
 }

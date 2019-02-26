@@ -91,9 +91,25 @@ class ReviewController extends Controller
      * @param  \App\Model\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Review $review)
+    public function update(Request $request, $p_id, $r_id, Product $product)
     {
         //
+        // return $r_id;
+        // return $product;
+        // return $review;
+
+        $review = Review::find($r_id);
+
+        $review->update($request->all());
+
+        return response([
+            'data' => new ReviewResource($review)
+        ], Response::HTTP_CREATED);
+    }
+
+    public function checkUserReview($request)
+    {
+        // if(Auth::id() !== )
     }
 
     /**
@@ -102,8 +118,14 @@ class ReviewController extends Controller
      * @param  \App\Model\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Review $review)
+    public function destroy(Product $product, $p_id, $r_id )
     {
         //
+        // return $r_id;
+        // return $product;
+
+        Review::find($r_id)->delete();
+
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }

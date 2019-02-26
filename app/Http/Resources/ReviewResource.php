@@ -16,7 +16,7 @@ class ReviewResource extends Resource
     {
         // return parent::toArray($request);
         return [
-
+            'id'        => $this->id,
             'customer'  => $this->customer,
             'body'      => $this->review,
             'star'      => $this->star,
